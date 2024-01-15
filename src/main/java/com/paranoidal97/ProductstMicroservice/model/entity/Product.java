@@ -1,30 +1,30 @@
 package com.paranoidal97.ProductstMicroservice.model.entity;
 
 import com.paranoidal97.ProductstMicroservice.model.enums.ProductType;
-import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-@Entity
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@Table
 @ToString
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="type", discriminatorType = DiscriminatorType.STRING)
+@Document(collection = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String name;
     private BigDecimal price;
-    @Column(insertable = false, updatable = false)
-    @Enumerated(EnumType.STRING)
+    private int ammount;
     private ProductType type;
+    private List<Product> variants;
 }

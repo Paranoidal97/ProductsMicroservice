@@ -1,12 +1,10 @@
 package com.paranoidal97.ProductstMicroservice.model.entity;
 
 import com.paranoidal97.ProductstMicroservice.model.enums.ProductType;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
 @Data
 @Getter
 @Setter
@@ -14,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper=true)
 @AllArgsConstructor
 @NoArgsConstructor
-@DiscriminatorValue(value = ProductType.Values.SMARTPHONE)
+@Document(collection = "products")
 public class Smartphone extends Product{
     private String color;
     private int batteryCapacity;

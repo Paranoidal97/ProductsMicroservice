@@ -1,6 +1,7 @@
 package com.paranoidal97.ProductstMicroservice.mapper;
 
 import com.paranoidal97.ProductstMicroservice.model.dto.RequestProductDto;
+import com.paranoidal97.ProductstMicroservice.model.dto.ResponseAllProductDto;
 import com.paranoidal97.ProductstMicroservice.model.dto.ResponseProductDto;
 import com.paranoidal97.ProductstMicroservice.model.entity.Product;
 import org.mapstruct.Mapper;
@@ -15,4 +16,6 @@ public interface ProductMapper {
 
     ResponseProductDto toResponseProductDto(Product product);
     Product toEntity(RequestProductDto requestProductDto);
+
+    ResponseAllProductDto toResponseAllProductDto(Product product);
 }

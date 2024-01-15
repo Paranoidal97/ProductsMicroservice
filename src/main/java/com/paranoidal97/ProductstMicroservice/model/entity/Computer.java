@@ -1,13 +1,10 @@
 package com.paranoidal97.ProductstMicroservice.model.entity;
 
 import com.paranoidal97.ProductstMicroservice.model.enums.ProductType;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
 @Data
 @Getter
 @Setter
@@ -15,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper=true)
 @AllArgsConstructor
 @NoArgsConstructor
-@DiscriminatorValue(value= ProductType.Values.PC)
+@Document(collection = "products")
 public class Computer extends Product{
     private String processor;
     private int ram;

@@ -10,14 +10,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RequestProductDto {
+public class ResponseAllProductDto {
+    private String id;
     private String name;
     private BigDecimal price;
     private ProductType type;
-    private int ammount;
-    private String processor;
-    private int ram;
-    private String color;
-    private int batteryCapacity;
-    private String accesories;
 }

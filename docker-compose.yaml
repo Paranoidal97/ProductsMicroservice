@@ -5,23 +5,15 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "7001:8080"
+      - "7001:7002"
     depends_on:
-      - db
-    environment:
-      POSTGRES_DB: products
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/products
-      SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: sa1234
-  db:
-    image: postgres:latest
+      - mongo
+  mongo:
+    image: mongo:latest
+    restart: always
     ports:
-      - "7002:5432"
-    environment:
-      POSTGRES_DB: products
-      POSTGRES_USER: sa
-      POSTGRES_PASSWORD: sa1234
+      - "27017:27017"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/data/db
 volumes:
   db_data:

@@ -1,6 +1,7 @@
 package com.paranoidal97.ProductstMicroservice.controller;
 
 import com.paranoidal97.ProductstMicroservice.model.dto.RequestProductDto;
+import com.paranoidal97.ProductstMicroservice.model.dto.ResponseAllProductDto;
 import com.paranoidal97.ProductstMicroservice.model.dto.ResponseProductDto;
 import com.paranoidal97.ProductstMicroservice.model.enums.ProductType;
 import com.paranoidal97.ProductstMicroservice.service.impl.ProductServiceImpl;
@@ -17,7 +18,7 @@ public class ProductController {
     private final ProductServiceImpl service;
 
     @GetMapping
-    public List<ResponseProductDto> getAllProducts(){
+    public List<ResponseAllProductDto> getAllProducts(){
         return service.getAllProducts();
     }
 
@@ -28,9 +29,15 @@ public class ProductController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseProductDto getProductById(@PathVariable Long id){
+    public ResponseProductDto getProductById(@PathVariable String id){
         System.out.println("tutaj");
         return service.getProductById(id);
+    }
+
+    @GetMapping("/{id}/{variantId}")
+    public ResponseProductDto getProductWithVariant(@PathVariable String id, @PathVariable String variantId){
+        System.out.println("tutaj");
+        return service.getProductWithVariant(id,variantId);
     }
 
     @PostMapping
@@ -40,12 +47,19 @@ public class ProductController {
     }
 
     @DeleteMapping("/id")
-    public void deleteProductById(@PathVariable Long id){
+    public void deleteProductById(@PathVariable String id){
         service.deleteProductById(id);
     }
 
     @PutMapping("/id")
-    public ResponseProductDto editeProductById(@PathVariable Long id){
+    public ResponseProductDto editeProductById(@PathVariable String id){
         return service.editeProductById(id);
     }
+
+    @PutMapping("/{id}")
+    public ResponseProductDto addVariant(@RequestBody RequestProductDto variant, @PathVariable String id){
+        return service.addVariant(variant, id);
+    }
+
+    //TODO usuwania wairnatu
 }
