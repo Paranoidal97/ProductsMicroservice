@@ -1,6 +1,8 @@
 package com.paranoidal97.ProductstMicroservice.exception.handler;
 
-import com.paranoidal97.ProductstMicroservice.exception.*;
+import com.paranoidal97.ProductstMicroservice.exception.BadRequestException;
+import com.paranoidal97.ProductstMicroservice.exception.DataAlreadyExistException;
+import com.paranoidal97.ProductstMicroservice.exception.DataNotFoundException;
 import com.paranoidal97.ProductstMicroservice.model.dto.MessageDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

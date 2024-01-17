@@ -1,18 +1,5 @@
 package com.paranoidal97.ProductstMicroservice.mapper;
 
-import com.paranoidal97.ProductstMicroservice.data.TestDataFactory;
-import com.paranoidal97.ProductstMicroservice.model.entity.Computer;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class ComputerMapperTest {
 //    ComputerMapper computerMapper = Mappers.getMapper(ComputerMapper.class);
 //

@@ -2,7 +2,6 @@ package com.paranoidal97.ProductstMicroservice.configuration;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +14,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableMongoRepositories(basePackages = "com.paranoidal97.ProductstMicroservice.repository")
-public class MongoConfig extends AbstractMongoClientConfiguration{
+public class MongoConfig extends AbstractMongoClientConfiguration {
     @Value("${spring.data.mongodb.database}")
     private String dbName;
     @Value("${spring.data.mongodb.host}")

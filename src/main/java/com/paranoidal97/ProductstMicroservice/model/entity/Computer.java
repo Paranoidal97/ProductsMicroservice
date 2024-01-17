@@ -1,19 +1,19 @@
 package com.paranoidal97.ProductstMicroservice.model.entity;
 
-import com.paranoidal97.ProductstMicroservice.model.enums.ProductType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Getter
-@Setter
 @SuperBuilder
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "products")
-public class Computer extends Product{
+public class Computer extends Product {
     private String processor;
     private int ram;
 }

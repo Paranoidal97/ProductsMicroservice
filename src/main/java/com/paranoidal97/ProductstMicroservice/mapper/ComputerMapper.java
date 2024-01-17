@@ -12,5 +12,6 @@ import org.mapstruct.ReportingPolicy;
 public interface ComputerMapper {
 
     Computer toEntity(RequestProductDto requestProductDto);
+
     ResponseProductDto toResponseProductDto(Computer computer);
 }

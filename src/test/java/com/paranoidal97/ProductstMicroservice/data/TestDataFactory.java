@@ -42,7 +42,7 @@ public class TestDataFactory {
         return product1;
     }
 
-    public static List<Product> createSampleProducts(){
+    public static List<Product> createSampleProducts() {
         Smartphone product1 = Smartphone.builder()
                 .name("Komputer")
                 .type(ProductType.SMARTPHONE)
@@ -66,7 +66,7 @@ public class TestDataFactory {
                 .price(BigDecimal.valueOf(10.000))
                 .build();
 
-        List<Product> products= new ArrayList<>();
+        List<Product> products = new ArrayList<>();
 
         products.add(product1);
         products.add(product2);
