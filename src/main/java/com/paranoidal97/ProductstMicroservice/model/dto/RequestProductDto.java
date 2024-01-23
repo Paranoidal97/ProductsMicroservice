@@ -13,9 +13,4 @@ public class RequestProductDto {
     private final BigDecimal price;
     private final ProductType type;
     private final int ammount;
-    private final String processor;
-    private final int ram;
-    private final String color;
-    private final int batteryCapacity;
-    private final String accesories;
 }

@@ -1,13 +1,13 @@
 package com.paranoidal97.ProductstMicroservice.model.enums;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public enum ProductType {
     PC("PC"),
     SMARTPHONE("SMARTPHONE"),
     ELECTRONICS("ELECTRONICS");
 
-    private String type;
+    private final String type;
 
-    ProductType(String type) {
-        this.type = type.toUpperCase();
-    }
 }

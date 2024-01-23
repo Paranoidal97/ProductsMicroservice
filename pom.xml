@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.paranoidal97</groupId>
-	<artifactId>ProductstMicroservice</artifactId>
+	<artifactId>products-microservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ProductsMicroservice</name>
+	<name>products-microservice</name>
 	<description>Microservice for products </description>
 	<properties>
 		<java.version>17</java.version>

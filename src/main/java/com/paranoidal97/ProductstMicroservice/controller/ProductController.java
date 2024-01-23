@@ -1,8 +1,9 @@
 package com.paranoidal97.ProductstMicroservice.controller;
 
 import com.paranoidal97.ProductstMicroservice.model.dto.RequestProductDto;
-import com.paranoidal97.ProductstMicroservice.model.dto.ResponseAllProductsDto;
+import com.paranoidal97.ProductstMicroservice.model.dto.RequestVariantDto;
 import com.paranoidal97.ProductstMicroservice.model.dto.ResponseProductDto;
+import com.paranoidal97.ProductstMicroservice.model.dto.ResponseProductsDto;
 import com.paranoidal97.ProductstMicroservice.model.enums.ProductType;
 import com.paranoidal97.ProductstMicroservice.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,20 +18,16 @@ public class ProductController {
     private final ProductServiceImpl service;
 
     @GetMapping
-    public List<? extends ResponseAllProductsDto> getAllProducts(@RequestParam(required = false) ProductType productType) {
-        if (productType != null) {
-            return service.getAllByType(productType);
-        } else {
-            return service.getAllProducts();
-        }
+    public List<? extends ResponseProductsDto> getAllProducts(@RequestParam(required = false) ProductType productType) {
+        return productType != null ? service.getAllByType(productType) : service.getAllProducts();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseProductDto getProductById(@PathVariable String id) {
         return service.getProductById(id);
     }
 
-    @GetMapping("/{id}/{variantId}")
+    @GetMapping("/{id}/variants/{variantId}")
     public ResponseProductDto getProductWithVariant(@PathVariable String id, @PathVariable String variantId) {
         return service.getProductWithVariant(id, variantId);
     }
@@ -45,15 +42,19 @@ public class ProductController {
         service.deleteProductById(id);
     }
 
-    @PutMapping("/editeProductById/{id}")
+    @PutMapping("/{id}")
     public ResponseProductDto editeProductById(@PathVariable String id) {
         return service.editProductById(id);
     }
 
-    @PutMapping("/addVariant/{id}")
-    public ResponseProductDto addVariant(@RequestBody RequestProductDto variant, @PathVariable String id) {
+    @PostMapping("/{id}/variants")
+    public ResponseProductDto addVariant(@RequestBody RequestVariantDto variant, @PathVariable String id) {
         return service.addVariant(variant, id);
     }
 
+    @DeleteMapping("/{id}/variant/{configurationId}")
+    public void deleteProductById(@PathVariable String id, @PathVariable String configurationId) {
+        service.deleteVariantById(id, configurationId);
+    }
     //TODO usuwania wairnatu
 }

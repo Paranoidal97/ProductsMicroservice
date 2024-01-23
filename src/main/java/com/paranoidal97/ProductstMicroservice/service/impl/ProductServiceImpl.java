@@ -1,16 +1,15 @@
 package com.paranoidal97.ProductstMicroservice.service.impl;
 
-import com.paranoidal97.ProductstMicroservice.exception.BadRequestException;
 import com.paranoidal97.ProductstMicroservice.exception.DataNotFoundException;
-import com.paranoidal97.ProductstMicroservice.mapper.ComputerMapper;
+import com.paranoidal97.ProductstMicroservice.mapper.ConfigurationMapper;
 import com.paranoidal97.ProductstMicroservice.mapper.ProductMapper;
-import com.paranoidal97.ProductstMicroservice.mapper.SmartphoneMapper;
+import com.paranoidal97.ProductstMicroservice.model.configuration.ComputerConfiguration;
+import com.paranoidal97.ProductstMicroservice.model.configuration.SmartphoneConfiguration;
 import com.paranoidal97.ProductstMicroservice.model.dto.RequestProductDto;
-import com.paranoidal97.ProductstMicroservice.model.dto.ResponseAllProductsDto;
+import com.paranoidal97.ProductstMicroservice.model.dto.RequestVariantDto;
 import com.paranoidal97.ProductstMicroservice.model.dto.ResponseProductDto;
-import com.paranoidal97.ProductstMicroservice.model.entity.Computer;
+import com.paranoidal97.ProductstMicroservice.model.dto.ResponseProductsDto;
 import com.paranoidal97.ProductstMicroservice.model.entity.Product;
-import com.paranoidal97.ProductstMicroservice.model.entity.Smartphone;
 import com.paranoidal97.ProductstMicroservice.model.enums.ProductType;
 import com.paranoidal97.ProductstMicroservice.repository.ProductRepository;
 import com.paranoidal97.ProductstMicroservice.service.ProductService;
@@ -29,11 +28,10 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-    private final ComputerMapper computerMapper;
-    private final SmartphoneMapper smartphoneMapper;
+    private final ConfigurationMapper configurationMapper;
 
     @Override
-    public List<ResponseAllProductsDto> getAllProducts() {
+    public List<ResponseProductsDto> getAllProducts() {
         List<Product> allProducts = productRepository.findAll();
         return allProducts.stream()
                 .map(productMapper::toResponseAllProductDto)
@@ -70,38 +68,50 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseProductDto createProduct(RequestProductDto requestProductDto) {
-        System.out.println(requestProductDto);
-        if (ProductType.PC.equals(requestProductDto.getType())) {
-            Computer computer = computerMapper.toEntity(requestProductDto);
-            productRepository.save(computer);
-            return computerMapper.toResponseProductDto(computer);
-        } else if (ProductType.SMARTPHONE.equals(requestProductDto.getType())) {
-            Smartphone smartphone = smartphoneMapper.toEntity(requestProductDto);
-            productRepository.save(smartphone);
-            return smartphoneMapper.toResponseProductDto(smartphone);
-        } else if (ProductType.ELECTRONICS.equals(requestProductDto.getType())) {
-            Product product = productMapper.toEntity(requestProductDto);
-            productRepository.save(product);
-            return productMapper.toResponseProductDto(product);
-        } else {
-            throw new BadRequestException("Bad type");
-        }
+        log.info("Product to create: {}", requestProductDto.toString());
+
+        Product product = productMapper.toEntity(requestProductDto);
+        productRepository.save(product);
+        log.info("Created product: {}", product.toString());
+        return productMapper.toResponseProductDto(product);
     }
 
-    public ResponseProductDto addVariant(RequestProductDto variant, String id) {
+    @Override
+    public void deleteVariantById(String id, String configurationId) {
         Product productById = productRepository.findById(id)
                 .orElseThrow(
                         () -> new DataNotFoundException("there is no such product")
                 );
-        Product variantEntity = productMapper.toEntity(variant);
-        variantEntity.setId(UUID.randomUUID().toString());
+        if(!productById.getVariants().stream().anyMatch(variant -> variant.getConfigurationId().equals(configurationId))){
+            throw new DataNotFoundException("there is no such variant");
+        }
+        productRepository.deleteVariantByConfigurationId(id, configurationId);
+    }
+
+    public ResponseProductDto addVariant(RequestVariantDto variant, String id) {
+        log.info("Variant to add: {}", variant.toString());
+        Product productById = productRepository.findById(id)
+                .orElseThrow(
+                        () -> new DataNotFoundException("there is no such product")
+                );
         if (productById.getVariants() == null) {
             productById.setVariants(new ArrayList<>());
         }
-        if (!productById.getVariants().contains(variantEntity)) {
-            productById.getVariants().add(variantEntity);
+        if (productById.getType().equals(ProductType.SMARTPHONE)) {
+            String variantId = UUID.randomUUID().toString();
+            SmartphoneConfiguration smartphoneConfiguration = configurationMapper.toSmartphoneConfiguration(variant);
+            smartphoneConfiguration.setConfigurationId(variantId);
+            productById.getVariants().add(smartphoneConfiguration);
+        } else if (productById.getType().equals(ProductType.PC)) {
+            String variantId = UUID.randomUUID().toString();
+            ComputerConfiguration computerConfiguration = configurationMapper.toComputerConfiguration(variant);
+            computerConfiguration.setConfigurationId(variantId);
+            productById.getVariants().add(computerConfiguration);
+        } else {
+            throw new IllegalArgumentException("Electronics cant have variants");
         }
         productRepository.save(productById);
+        log.info("Product with added variant: {}", productById.toString());
         return productMapper.toResponseProductDto(productById);
     }
 

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Data
 @SuperBuilder
-public class ResponseAllProductsDto {
+public class ResponseProductsDto {
     private final String id;
     private final String name;
     private final BigDecimal price;
